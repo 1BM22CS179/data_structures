@@ -1,0 +1,79 @@
+#include <stdio.h>
+
+#define SIZE 5
+
+int CQ[SIZE];
+int front = -1, rear = -1;
+
+void CIR_ENQUEUE() {
+    if ((rear + 1) % SIZE == front) {
+        printf("Queue Overflow\n");
+        return;
+    }
+
+    if (front == -1) {
+        front = 0;
+    }
+
+    rear = (rear + 1) % SIZE;
+    printf("Enter element to be inserted: ");
+    scanf("%d", &CQ[rear]);
+    printf("%d inserted\n", CQ[rear]);
+}
+
+void CIR_DEQUEUE() {
+    if (front == -1) {
+        printf("Queue Underflow\n");
+        return;
+    }
+
+    printf("%d deleted\n", CQ[front]);
+
+    if (front == rear) {
+        front = rear = -1;
+    } else {
+        front = (front + 1) % SIZE;
+    }
+}
+
+void CIR_DISPLAY() {
+    if (front == -1) {
+        printf("Queue is empty\n");
+        return;
+    }
+
+    printf("Queue elements: ");
+    for (int i = front; i != rear; i = (i + 1) % SIZE) {
+        printf("%d ", CQ[i]);
+    }
+    printf("%d\n", CQ[rear]);
+}
+
+int main() {
+    int choice;
+    printf("1BM22CS179\n");
+
+    while (1) {
+        printf("\n1. Insert\n2. Delete\n3. Display\n4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                CIR_ENQUEUE();
+                break;
+            case 2:
+                CIR_DEQUEUE();
+                break;
+            case 3:
+                CIR_DISPLAY();
+                break;
+            case 4:
+                printf("Exiting...\n");
+                return 0;
+            default:
+                printf("Invalid choice\n");
+        }
+    }
+    return 0;
+}
