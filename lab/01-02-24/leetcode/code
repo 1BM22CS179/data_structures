@@ -1,0 +1,41 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct ListNode {
+    int val;
+    struct ListNode *next;
+};
+
+int getLength(struct ListNode *root) {
+    int length = 0;
+    struct ListNode *current = root;
+    while (current != NULL) {
+        length++;
+        current = current->next;
+    }
+    return length;
+}
+
+struct ListNode **splitListToParts(struct ListNode *root, int k, int *returnSize) {
+    int length = getLength(root);
+    int subLength = length / k;
+    int remainder = length % k;
+
+    struct ListNode **ans = (struct ListNode **)malloc(k * sizeof(struct ListNode *));
+    struct ListNode *prev = NULL;
+    struct ListNode *head = root;
+
+    for (int i = 0; i < k; ++i, --remainder) {
+        ans[i] = head;
+        for (int j = 0; j < subLength + (remainder > 0); ++j) {
+            prev = head;
+            head = head->next;
+        }
+        if (prev != NULL) {
+            prev->next = NULL;
+        }
+    }
+
+    *returnSize = k;
+    return ans;
+}
